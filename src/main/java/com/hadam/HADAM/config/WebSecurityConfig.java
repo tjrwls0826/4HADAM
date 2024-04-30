@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -30,6 +33,8 @@ public class WebSecurityConfig {
     // 특정 HTTP 요청에 대한 웹 기반 보안 구성
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        AuthenticationSuccessHandler successHandler = new SimpleUrlAuthenticationSuccessHandler("/articles"); // 로그인 성공 후의 URL을 지정
+
         return http
                 .authorizeRequests() // 인증, 인가 설정
                 .requestMatchers("/login", "/signup", "/user").permitAll()
@@ -37,7 +42,7 @@ public class WebSecurityConfig {
                 .and()
                 .formLogin() // 폼 기반 로그인 설정
                 .loginPage("/login")
-                .defaultSuccessUrl("/articles")
+                .successHandler(successHandler)
                 .and()
                 .logout() // 로그아웃 설정
                 .logoutSuccessUrl("/login")
