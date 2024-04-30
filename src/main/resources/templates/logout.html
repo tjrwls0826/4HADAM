@@ -1,0 +1,16 @@
+<!-- logout.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logout</title>
+</head>
+<body>
+<h2>Logout</h2>
+<p>정말 로그아웃하시겠습니까?</p>
+<form action="/logout" method="post">
+  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+  <button type="submit">로그아웃</button>
+</form>
+</body>
+</html>
